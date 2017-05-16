@@ -75,6 +75,7 @@ class SGAssignment(models.Model):
     test_file_name = models.CharField(max_length=100)
     test_input = models.TextField(max_length=5000, blank=True)
     test_output = models.TextField(max_length=5000, blank=True)
+    test_time = models.FloatField(default=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
