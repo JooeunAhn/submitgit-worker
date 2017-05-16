@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from loader import load_credential
+from .loader import load_credential
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # local apps
+    'core',
+    'submitgit',
 ]
 
 MIDDLEWARE = [
@@ -78,8 +81,21 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'submitgit': {
+        "ENGINE": "django.db.backends.mysql",
+        "HOST":
+        "submitgit-callisto.ctxhubej0omd.ap-northeast-2.rds.amazonaws.com",
+        "PORT": 3306,
+        "USER": "root",
+        "PASSWORD": load_credential("RDS_PASSWORD"),
+        "NAME": "submitgit",
     }
 }
+
+DATABASE_ROUTERS = [
+    'core.routers.SubmitgitRouter',
+]
 
 
 # Password validation
