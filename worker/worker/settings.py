@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # local apps
     'core',
     'submitgit',
+    # third party apps
+    'kronos',
 ]
 
 MIDDLEWARE = [

@@ -10,7 +10,7 @@ class SubmitgitRouter(object):
     def allow_relation(self, obj1, obj2, **hints):
         if obj1._meta.app_label in APPS or \
            obj2._meta.app_label in APPS:
-            return True
+                return True
         return None
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):

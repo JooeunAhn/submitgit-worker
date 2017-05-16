@@ -29,10 +29,10 @@ class SGCourse(models.Model):
     )
     professor = models.ForeignKey(SGUser,
                                   related_name="courses",
-                                  limit_choices_to={'profile__is_prof': True},
+                                  limit_choices_to={'sgprofile__is_prof': True},
                                   on_delete=models.CASCADE)
     students = models.ManyToManyField(SGUser,
-                                      through="Repository",
+                                      through="SGRepository",
                                       through_fields=("course", "student"))
     title = models.CharField(max_length=100)
     content = models.TextField(max_length=5000)
@@ -50,7 +50,7 @@ class SGCourse(models.Model):
 
 class SGRepository(models.Model):
     student = models.ForeignKey(SGUser,
-                                limit_choices_to={'profile__is_prof': False},
+                                limit_choices_to={'sgprofile__is_prof': False},
                                 on_delete=models.CASCADE)
     course = models.ForeignKey(SGCourse,
                                on_delete=models.CASCADE)
