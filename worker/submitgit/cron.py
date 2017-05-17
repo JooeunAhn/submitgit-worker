@@ -65,6 +65,10 @@ def submit():
             if SGSubmission.objects.filter(student=repo.student, assignment=assignment, is_passed=True).exists():
                 continue 
 
+            # already working
+            if SGSubmission.objects.filter(student=repo.student, assignment=assignment, is_working=True).exists():
+                continue
+              
             repo_url = [i for i in repo.url.split('/') if i != ""]
             github_repo_name = repo_url.pop()
             github_username = repo_url.pop()
@@ -89,6 +93,7 @@ def submit():
              
             if code is "":
                 continue          
+
 
             files = {'raw_code': (assignment.test_file_name+lang_extension[lang], code)}
             data = {"student": repo.student.id, "assignment": assignment.id}
