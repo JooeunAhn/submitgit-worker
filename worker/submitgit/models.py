@@ -76,9 +76,62 @@ class SGAssignment(models.Model):
     test_input = models.TextField(max_length=5000, blank=True)
     test_output = models.TextField(max_length=5000, blank=True)
     test_time = models.FloatField(default=2)
+    test_langids = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "portal_assignment"
+        managed = False
+
+
+def update_filename(instance, filename):
+    import os
+    import uuid
+    random_id = str(uuid.uuid4())
+    path = "uploads/history/%s/" % (random_id,)
+    filename = str(instance.student.profile.sid) + "-" + filename
+    return os.path.join(path, filename)
+
+
+class SGSubmission(models.Model):
+    LANG_CHOICES = (
+        (0, "Python"),
+        (1, "Ruby"),
+        (2, "Clojure"),
+        (3, "PHP"),
+        (4, "Javascript"),
+        (5, "Scala"),
+        (6, "Go"),
+        (7, "C"),
+        (8, "Java"),
+        (9, "VB.NET"),
+        (10, "C#"),
+        (11, "Bash"),
+        (12, "Objective-C"),
+        (13, "MySQL"),
+        (14, "Perl"),
+        (15, "C++"),
+    )
+    student = models.ForeignKey(SGUser,
+                                limit_choices_to={'sgprofile__is_prof': False},
+                                on_delete=models.CASCADE)
+    assignment = models.ForeignKey(SGAssignment,
+                                   on_delete=models.CASCADE)
+    is_passed = models.BooleanField(default=False)
+    is_working = models.BooleanField(default=True)
+    is_last_submission = models.BooleanField(default=True)
+    has_error = models.BooleanField(default=False)
+    raw_code = models.FileField(upload_to=update_filename,
+                                blank=True)
+    code = models.TextField(max_length=5000, blank=True)
+    langid = models.IntegerField(choices=LANG_CHOICES, null=True, blank=True)
+    errors = models.TextField(max_length=5000, blank=True)
+    output = models.TextField(max_length=5000, blank=True)
+    time = models.FloatField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "portal_submission"
         managed = False
