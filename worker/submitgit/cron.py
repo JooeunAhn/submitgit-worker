@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import kronos
 import random
 import pika
@@ -55,7 +55,7 @@ def connect_queue(data):
 
 @kronos.register('50 * * * *')
 def submit():
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     assignment_list = SGAssignment.objects.filter(deadline__gte=now)
     
     for assignment in assignment_list:
