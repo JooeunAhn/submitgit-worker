@@ -94,6 +94,9 @@ def submit():
             if code is "":
                 continue          
 
+            # if user's code is in submission history, pass the checking
+            if SGSubmission.objects.filter(code=code, assignment=assignment, student=repo.student, is_passed=False):
+                continue 
 
             files = {'raw_code': (assignment.test_file_name+lang_extension[lang], code)}
             data = {"student": repo.student.id, "assignment": assignment.id}
