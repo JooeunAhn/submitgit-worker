@@ -13,7 +13,7 @@ class SGProfile(models.Model):
     user = models.OneToOneField(SGUser, related_name="profile")
     name = models.CharField(max_length=20)
     sid = models.CharField(max_length=20, blank=True)
-    github_token = models.CharField(max_length=100, blank=True)
+    github_username = models.CharField(max_length=100, blank=True)
 
     class Meta:
         db_table = "accounts_profile"
