@@ -56,6 +56,7 @@ class SGRepository(models.Model):
                                on_delete=models.CASCADE)
     is_verified = models.BooleanField(default=False)
     url = models.URLField()
+    key = models.BinaryField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
