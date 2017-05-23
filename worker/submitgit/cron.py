@@ -106,7 +106,10 @@ def submit():
                         enc_code = BytesIO(raw_code)
                         dec_code, size = decrypt(key, enc_code)
                         dec_code.truncate(size)
-                        code = dec_code.read().decode('utf-8')
+                        try:
+                            code = dec_code.read().decode('utf-8')
+                        except UnicodeDecodeError:
+                            pass
                     else:
                         code = res.text
                     langid = lang
